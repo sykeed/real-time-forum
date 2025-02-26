@@ -15,8 +15,7 @@ func main() {
 	dataBase.InitSchema()
 	routes.WebRoutes()
 	fmt.Println("Starting server on :8080")
-
-	err := http.ListenAndServe(":8088", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println("err starting the server : ", err)
 		return
