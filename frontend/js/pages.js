@@ -23,6 +23,8 @@ export function navigateTo(page) {
   let token = document.cookie;
   console.log("de:", token);
 
+  
+
   if (page === "login") {
     content = `
 
@@ -122,8 +124,8 @@ export function navigateTo(page) {
 
   const app = document.getElementById("app");
   if (app) app.innerHTML = content;
-
   window.history.pushState({ page: page }, "", `/${page}`);
+ 
   window.onpopstate = function (ev) {
     if (ev.state && ev.state.page) {
       navigateTo(ev.state.page);
@@ -133,7 +135,8 @@ export function navigateTo(page) {
 
 const routes = {
   "/": "home",
-  login: "login",
+  "login": "login",
+  "home" : "home",
   "/register": "register",
 };
 
@@ -184,18 +187,19 @@ document.addEventListener("DOMContentLoaded", () => {
 */
 
 
+/* 
 
-/*
 function checkAuth() {
     const token = localStorage.getItem("session");
     if (!token) {
         window.location.href = "/login"; // Redirect if no token
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
-        checkAuth(); // Ensure user is authenticated
-    }
-});
+        }
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+                checkAuth(); // Ensure user is authenticated
+            }
+        });
+        
 */

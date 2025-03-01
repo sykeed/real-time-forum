@@ -85,7 +85,6 @@ export async function Login() {
             console.log("errorrr",error);  
             showpopup(error.message, "error");
         }
-
 }
 
 
@@ -107,11 +106,9 @@ async function sessionCheker() {
     const response = await fetch("/home", {
         method : "GET",
       //  headers : {"Content-Type": "application/json"},
-
     })
 
     if (response.ok){
-        
         navigateTo("home");
     }else {
         navigateTo("login");

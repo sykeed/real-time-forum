@@ -8,13 +8,13 @@ import (
 )
 
 func WebRoutes() {
-	http.HandleFunc("/home", handlers.HandleHome)
+	http.HandleFunc("/", handlers.HandleHome)
 	http.HandleFunc("/login-submit", handlers.LoginSubmit)
 	http.HandleFunc("/register-submit", handlers.RegisterHandler)
 	http.HandleFunc("/lougout", handlers.LogOutHandler)
 	//	http.HandleFunc("/login", handlers.LoginHandler)
 //	http.HandleFunc("/home", tools.AuthMiddleware(handlers.HandleHome))
-	http.HandleFunc("/sessionChecker", handlers.SessionChecker)
+//	http.HandleFunc("/sessionChecker", handlers.SessionChecker)
 
 	// http.HandleFunc("/login",handlers.LoginHandler)
 }
