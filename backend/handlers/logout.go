@@ -29,7 +29,7 @@ func LogOutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("rows :", rows)
 
 	http.SetCookie(w, &http.Cookie{
-		Name:   "forum_session",
+		Name:   "session",
 		Value:  "",
 		Path:   "/",
 		MaxAge: -1,

@@ -27,10 +27,10 @@ func CookieMaker(w http.ResponseWriter) string {
 	}
 
 	cookie := &http.Cookie{
-		Name:     "forum_session",
+		Name:     "session",
 		Value:    u.String(),
 		Path:     "/",
-		HttpOnly: true,
+		HttpOnly: false,
 		Expires:  time.Now().Add(time.Hour * 24),
 	}
 	http.SetCookie(w, cookie)
@@ -38,7 +38,7 @@ func CookieMaker(w http.ResponseWriter) string {
 }
 
 func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, error) {
-	cookie, err := r.Cookie("forum_session")
+	cookie, err := r.Cookie("session")
 	if err != nil {
 		return 0, err
 	}
@@ -47,7 +47,7 @@ func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, er
 	query1 := `SELECT user_id FROM sessions WHERE session = ? AND exp_date > datetime('now') `
 	var user_id int
 	err = db.QueryRow(query1, sessionID).Scan(&user_id)
-	
+
 	if err != nil {
 		log.Printf("Failed to validate session for GET: %v", err)
 		http.Error(w, "Invalid session", http.StatusUnauthorized)
@@ -56,19 +56,3 @@ func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, er
 	return user_id, nil
 }
 
-func isLoged(db *sql.DB, r *http.Request) int {
-	var user_id int
-	cookie, err := r.Cookie("forum_session")
-	
-	if err != nil {
-		user_id = 0
-	} else {
-		sessionID := cookie.Value
-		query1 := `SELECT user_id FROM sessions WHERE session = ?`
-		err = db.QueryRow(query1, sessionID).Scan(&user_id)
-		if err != nil {
-			user_id = 0
-		}
-	}
-	return user_id
-}

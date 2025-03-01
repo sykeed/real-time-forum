@@ -2,31 +2,29 @@
 //     navigateTo("register")
 // })
 
-import {Register,Login} from '/frontend/js/app.js'
- 
+import { Register, Login } from "/frontend/js/app.js";
+
 function addListers() {
-    document.body.addEventListener("click", function (event) {
-        if (event.target.matches(".register-btn")) {
-            navigateTo("register");
-        } 
-        else if (event.target.matches("#register-submit")) {
-            Register();
-        } 
-        else if (event.target.matches("#link-login")) {
-            navigateTo("login");
-        }else if (event.target.matches(".login-btn")) {
-            Login();
-        }
-    });
+  document.body.addEventListener("click", function (event) {
+    if (event.target.matches(".register-btn")) {
+      navigateTo("register");
+    } else if (event.target.matches("#register-submit")) {
+      Register();
+    } else if (event.target.matches("#link-login")) {
+      navigateTo("login");
+    } else if (event.target.matches(".login-btn")) {
+      Login();
+    }
+  });
 }
 
- export function navigateTo(page) {
-    let content = ""
-    
- 
-    if (page === "login") {
+export function navigateTo(page) {
+  let content = "";
+  let token = document.cookie;
+  console.log("de:", token);
 
- content = `
+  if (page === "login") {
+    content = `
 
     <div id="loginform">
         <div class="container">
@@ -39,9 +37,8 @@ function addListers() {
     </div>
        
         `;
-    }
-    else if (page === "register") {
-        content = `
+  } else if (page === "register") {
+    content = `
     <div class="container">
         <h2>Register</h2>
         <div class="form-group">
@@ -79,8 +76,8 @@ function addListers() {
         <p>Already have an account ? <a id="link-login">Login</a></p>
     </div>
         `;
-    }else if (page === "home") {
-     content=   `
+  } else if (page === "home") {
+    content = `
      <div class="home-container">
         <!-- Sidebar -->
         <aside class="sidebar">
@@ -117,21 +114,88 @@ function addListers() {
             <button onclick="sendMessage()">Send</button>
         </aside>
     </div>
-        `
+        `;
+  }
+
+  const stylo = document.getElementById("page-style");
+  if (stylo) stylo.href = `/frontend/css/${page}.css`;
+
+  const app = document.getElementById("app");
+  if (app) app.innerHTML = content;
+
+  window.history.pushState({ page: page }, "", `/${page}`);
+  window.onpopstate = function (ev) {
+    if (ev.state && ev.state.page) {
+      navigateTo(ev.state.page);
     }
+  };
+}
 
-    const stylo = document.getElementById('page-style');
-    if (stylo) {
-        stylo.href = `/frontend/css/${page}.css`
+const routes = {
+  "/": "home",
+  login: "login",
+  "/register": "register",
+};
+
+function router() {
+  const path = window.location.pathname;
+  const page = routes[path] || "login";
+  navigateTo(page);
+}
+
+addListers();
+//router()
+
+// Function to check if a specific cookie exists
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+  for (let cookie of cookies) {
+    const [key, value] = cookie.split("=");
+    if (key === name) {
+      return value;
     }
+  }
+  return null;
+}
 
-    const app = document.getElementById('app');
-        if (app) {
-            app.innerHTML = content;
-        }
+// Function to enforce authentication
+/*
+function checkAuth() {
+  const sessionToken = getCookie("session"); // Change "session_token" if your cookie name is different
+  console.log("cookies : ", document.cookie);
+  console.log("redirected 1");
+  if (!sessionToken) {
+    console.log("redirected 2");
 
-      //  addListers()
- }
+    navigateTo("login"); // Redirect if no session
+  }
+}
+*/
+// Run authentication check when page loads
+/*
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+        checkAuth();
+        console.log("here");
+        
+    }
+});
+
+*/
 
 
- addListers()
+
+/*
+function checkAuth() {
+    const token = localStorage.getItem("session");
+    if (!token) {
+        window.location.href = "/login"; // Redirect if no token
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+        checkAuth(); // Ensure user is authenticated
+    }
+});
+*/

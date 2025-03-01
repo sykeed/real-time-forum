@@ -38,6 +38,7 @@ func InitSchema() {
             last_name TEXT NOT NULL,
             age INTEGER NOT NULL,
             gender TEXT NOT NULL
+            
          
         );`,
 		`CREATE TABLE IF NOT EXISTS sessions (

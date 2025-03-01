@@ -37,7 +37,7 @@ export async function Register() {
 
 
         try {
-            const response = await fetch("/register", {
+            const response = await fetch("/register-submit", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(obj),
@@ -65,7 +65,7 @@ export async function Login() {
             password : document.querySelector("#password").value
         }
         try {
-            const response = await fetch ("/login" , {
+            const response = await fetch ("/login-submit" , {
                 method : "POST",
                 headers : {"Content-Type": "application/json"},
                 body :  JSON.stringify(obj2)
@@ -80,12 +80,45 @@ export async function Login() {
 
             showpopup("Registered successfully!", "success");
             navigateTo("home")
-            console.log("move");
-            
+             
         }catch (error){
             console.log("errorrr",error);  
             showpopup(error.message, "error");
         }
 
 }
+
+
+async function sessionCheker() {
+    const response = await fetch("sessionChecker", {
+      method: "GET",
+      credentials: "include",
+    });
+  
+    if (response.ok) {
+      console.log("user is loged");
+    } else {
+      navigateTo("login");
+    }
+  }
+
+  async function home() {
+
+    const response = await fetch("/home", {
+        method : "GET",
+      //  headers : {"Content-Type": "application/json"},
+
+    })
+
+    if (response.ok){
+        
+        navigateTo("home");
+    }else {
+        navigateTo("login");
+    }
+  }
+
+
+  
+  document.addEventListener("DOMContentLoaded", home);
 
