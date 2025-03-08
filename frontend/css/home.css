@@ -1,116 +1,192 @@
-.home-container {
-    display: grid;
-    grid-template-columns: 250px 1fr 290px;
-    gap: 20px;
-    padding: 20px;
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Make the page full screen */
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Main container layout */
+.container {
+    display: flex;
+    width: 100%;
     height: 100vh;
+    background: white;
 }
 
-/* Sidebar */
+/* Sidebar (Categories) */
 .sidebar {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
- 
+    width: 20%;
+    background: #333;
+    color: white;
+    padding: 20px;
 }
 
-.sidebar h2, .sidebar h3 {
+.sidebar h3 {
+    margin-bottom: 15px;
     text-align: center;
-    margin-bottom: 10px;
 }
 
 .sidebar ul {
-    list-style:none;
-    padding: 0;
+    list-style: none;
 }
 
 .sidebar li {
-    margin: 10px 0;
-}
-
-.sidebar button {
-    width: 100%;
-    padding: 8px;
-    border: none;
+    padding: 10px;
     cursor: pointer;
-    background: #007bff;
-    color: white;
     border-radius: 5px;
+    text-align: center;
+    transition: 0.3s;
 }
 
-.sidebar button:hover {
-    background: #0056b3;
+.sidebar li:hover {
+    background: #555;
 }
 
 /* Main Content */
-.content {
-    background: white;
+.main-content {
+    width: 60%;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
 }
 
-/* Posts */
-.post {
-    border: 1px solid #ddd;
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Post Form */
+.post-form {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.post-form input,
+.post-form textarea,
+.post-form select {
+    width: 100%;
     padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.post-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.post-form button:hover {
+    background: #0056b3;
+}
+
+/* Posts Container */
+#posts-container {
+    margin-top: 10px;
+}
+
+.post {
+    background: #fff;
+    padding: 15px;
     margin-bottom: 10px;
     border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.post h3 {
-    margin: 0;
-}
-
-.post p {
-    margin: 5px 0;
-}
-
-.like-btn {
-    background: #ff4757;
+/* Online Users Sidebar */
+.users {
+    width: 20%;
+    background: #222;
     color: white;
-    padding: 5px 10px;
-    border: none;
+    padding: 20px;
+}
+
+.users h3 {
+    text-align: center;
+}
+
+.users ul {
+    list-style: none;
+}
+
+.users li {
+    padding: 10px;
     cursor: pointer;
     border-radius: 5px;
+    text-align: center;
+    transition: 0.3s;
 }
 
-.like-btn:hover {
-    background: #e84118;
+.users li:hover {
+    background: #444;
 }
 
-/* Messages */
-.messages {
-    background: #f1f1f1;
-    padding: 15px;
-    border-radius: 10px;
+/* Floating Chat Windows */
+#chat-container {
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-#message-list {
+/* Individual Chat Box */
+.chat-box {
+    width: 250px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.chat-header {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.chat-body {
+    padding: 10px;
     height: 200px;
     overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
+    font-size: 14px;
 }
 
-#messageInput {
-    width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.chat-footer {
+    padding: 5px;
+    display: flex;
+    border-top: 1px solid #ddd;
 }
 
-.messages button {
-    width: 100%;
-    padding: 8px;
-    background: #28a745;
+.chat-footer input {
+    flex-grow: 1;
+    padding: 5px;
+    border: none;
+    border-radius: 3px;
+}
+
+.chat-footer button {
+    background: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
-    margin-top: 5px;
-}
-
-.messages button:hover {
-    background: #218838;
+    padding: 5px 10px;
+    cursor: pointer;
 }

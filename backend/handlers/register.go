@@ -14,7 +14,7 @@ import (
 )
 
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("registerr")
+	
 	var user models.User
 	if r.Method != http.MethodPost {
 		jsonResponse(w, http.StatusMethodNotAllowed, "Method not allowed",nil)
@@ -27,7 +27,6 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, http.StatusBadRequest, "invalid input",nil)
 		return
 	}
-	fmt.Println(user)
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {

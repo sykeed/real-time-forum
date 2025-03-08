@@ -1,32 +1,29 @@
-// document.querySelector(".register-btn").addEventListener("click", function () {
-//     navigateTo("register")
-// })
 
-import {Register,Login} from '/frontend/js/app.js'
- 
+import { Register, Login } from '/frontend/js/app.js'
+
 function addListers() {
     document.body.addEventListener("click", function (event) {
         if (event.target.matches(".register-btn")) {
             navigateTo("register");
-        } 
+        }
         else if (event.target.matches("#register-submit")) {
             Register();
-        } 
+        }
         else if (event.target.matches("#link-login")) {
             navigateTo("login");
-        }else if (event.target.matches(".login-btn")) {
+        } else if (event.target.matches(".login-btn")) {
             Login();
         }
     });
 }
 
- export function navigateTo(page) {
+export function navigateTo(page) {
     let content = ""
-    
- 
+
+
     if (page === "login") {
 
- content = `
+        content = `
 
     <div id="loginform">
         <div class="container">
@@ -79,44 +76,54 @@ function addListers() {
         <p>Already have an account ? <a id="link-login">Login</a></p>
     </div>
         `;
-    }else if (page === "home") {
-     content=   `
-     <div class="home-container">
-        <!-- Sidebar -->
+    } else if (page === "home") {
+        content = `
+    <div class="container">
+        <!-- Left Sidebar: Categories -->
         <aside class="sidebar">
-            <h2>Forum Menu</h2>
-            <ul>
-                <li><button onclick="navigateTo('createPost')">➕ Create Post</button></li>
-                <li><button onclick="filterPosts('all')">📌 All Posts</button></li>
-                <li><button onclick="filterPosts('my')">📝 My Posts</button></li>
-                <li><button onclick="filterPosts('liked')">❤️ Liked Posts</button></li>
-                <li><button onclick="logout()">🚪 Logout</button></li>
-            </ul>
-    
             <h3>Categories</h3>
-            <ul id="category-list">
-                <li><button onclick="filterPosts('tech')">💻 Tech</button></li>
-                <li><button onclick="filterPosts('gaming')">🎮 Gaming</button></li>
-                <li><button onclick="filterPosts('sports')">⚽ Sports</button></li>
+            <ul>
+                <li onclick="filterPosts('all')">All</li>
+                <li onclick="filterPosts('tech')">Tech</li>
+                <li onclick="filterPosts('gaming')">Gaming</li>
+                <li onclick="filterPosts('sports')">Sports</li>
             </ul>
         </aside>
-    
-        <!-- Main Content -->
-        <main class="content">
-            <h2>Forum Posts</h2>
-            <div id="post-feed">Loading posts...</div>
-        </main>
-    
-        <!-- Private Messages Section -->
-        <aside class="messages">
-            <h2>Private Messages</h2>
-            <div id="message-list">
-                <p>No messages yet.</p>
+
+        <!-- Main Content: Create Posts & Feed -->
+        <main class="main-content">
+            <h2>Create a Post</h2>
+            <div class="post-form">
+                <input type="text" id="post-title" placeholder="Title" required>
+                <textarea id="post-content" placeholder="What's on your mind?" required></textarea>
+                <select id="post-category">
+                    <option value="tech">Tech</option>
+                    <option value="gaming">Gaming</option>
+                    <option value="sports">Sports</option>
+                </select>
+                <button onclick="createPost()">Post</button>
             </div>
-            <input type="text" id="messageInput" placeholder="Type a message...">
-            <button onclick="sendMessage()">Send</button>
+
+            <h2>Recent Posts</h2>
+            <div id="posts-container">
+                <!-- Posts will be dynamically added here -->
+            </div>
+        </main>
+
+        <!-- Right Sidebar: Online Users -->
+        <aside class="users">
+            <h3>Online Users</h3>
+            <ul id="users-list">
+                <li onclick="openChat('John')">John</li>
+                <li onclick="openChat('Emma')">Emma</li>
+                <li onclick="openChat('Mike')">Mike</li>
+            </ul>
         </aside>
     </div>
+
+    <!-- Floating Chat Windows -->
+    <div id="chat-container"></div>
+
         `
     }
 
@@ -126,12 +133,12 @@ function addListers() {
     }
 
     const app = document.getElementById('app');
-        if (app) {
-            app.innerHTML = content;
-        }
+    if (app) {
+        app.innerHTML = content;
+    }
 
-      //  addListers()
- }
+    //  addListers()
+}
 
 
- addListers()
+addListers()

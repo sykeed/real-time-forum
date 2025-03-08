@@ -54,7 +54,7 @@ body {
   
   button[type="login"] {
     background: #007bff;
-    color: white;
+    color: #007bff;
   }
   
   button[type="login"]:hover {
