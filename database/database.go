@@ -23,6 +23,12 @@ func GetDB() *sql.DB {
 		if err = DB.Ping(); err != nil {
 			log.Fatalf("Failed to connect to database: %v", err)
 		}
+
+        	// Enable Write-Ahead Logging (WAL) for better concurrency
+		_, err = DB.Exec("PRAGMA journal_mode=WAL;")
+		if err != nil {
+			log.Fatalf("Failed to set PRAGMA journal_mode: %v", err)
+		}
 	})
 	return DB
 }
@@ -58,7 +64,7 @@ func InitSchema() {
             FOREIGN KEY (user_id) REFERENCES users(id)
         );`,
 		`CREATE TABLE IF NOT EXISTS comments (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             post_id TEXT NOT NULL,
             user_id TEXT NOT NULL,
             content TEXT NOT NULL,

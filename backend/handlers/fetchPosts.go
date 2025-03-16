@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"real-time-forum/backend/models"
@@ -21,6 +22,7 @@ func FetchPosts(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := database.DB.Query(query)
 	if err != nil {
+		fmt.Println("err2 : ",err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -29,12 +31,21 @@ func FetchPosts(w http.ResponseWriter, r *http.Request) {
 
 		err := rows.Scan(&post.ID, &post.UserID, &post.Title, &post.Content, &post.Category, &post.CreatedAt)
 		if err != nil {
+			fmt.Println("err1 : ",err)
 			http.Error(w, "internal server error", http.StatusInternalServerError)
 			return
 		}
 		posts = append(posts, post)
 	}
-	json.NewEncoder(w).Encode(posts)
+ 
+
+	// Set headers first, before writing any response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	
+	// Then encode the response
+	if err := json.NewEncoder(w).Encode(posts); err != nil {
+		// Can't change headers or status after writing, but we can log the error
+		fmt.Println("Error encoding JSON response:", err)}
+	
 }

@@ -14,7 +14,7 @@ import (
 // func Getusers(w http.ResponseWriter, r *http.Request) {
 // 	fmt.Println("aaaa")
 // 	if r.Method != "POST" {
-// 		jsonResponse(w, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed), nil)
+// 		JsonResponse(w, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed), nil)
 // 		return
 // 	}
 // 	if strings.HasPrefix(r.URL.Path, "api/") {
@@ -24,7 +24,7 @@ import (
 // 	rows, err := database.DB.Query("SELECT nickname FROM users")
 // 	if err != nil {
 // 		if err == sql.ErrNoRows {
-// 			jsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
+// 			JsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
 // 		}
 // 		return
 // 	}
@@ -53,25 +53,25 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 	cookie, err := r.Cookie("session")
 	if err != nil {
-		jsonResponse(w, http.StatusUnauthorized, "No session found", nil)
+		JsonResponse(w, http.StatusUnauthorized, "No session found", nil)
 		return
 	}
 	var userID int
 
 	err = database.DB.QueryRow("SELECT user_id FROM sessions WHERE session = ?", cookie.Value).Scan(&userID)
 	if err != nil {
-		jsonResponse(w, http.StatusOK, "Session valid", nil)
+		JsonResponse(w, http.StatusOK, "Session valid", nil)
 		if err == sql.ErrNoRows {
-			jsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
+			JsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
 		}
 		return
 	}
 	var nickname string
 	err = database.DB.QueryRow("SELECT nickname FROM users WHERE id =?", userID).Scan(&nickname)
 	if err != nil {
-		jsonResponse(w, http.StatusOK, "this is probleme in geting nickname from DB", nil)
+		JsonResponse(w, http.StatusOK, "this is probleme in geting nickname from DB", nil)
 		if err == sql.ErrNoRows {
-			jsonResponse(w, http.StatusUnauthorized, "this is probleme in geting nickname from DB", nil)
+			JsonResponse(w, http.StatusUnauthorized, "this is probleme in geting nickname from DB", nil)
 		}
 		return
 	}
@@ -101,7 +101,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
         last_message_time DESC NULLS LAST,
         nickname ASC;
     `
-	rows, err := database.DB.Query(query,nickname,nickname,userID )
+	rows, err := database.DB.Query(query, nickname, nickname, userID)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return

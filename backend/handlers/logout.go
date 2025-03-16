@@ -25,7 +25,7 @@ func LogOutHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("error executing the query")
 	}
-
+	//defer database.DB.Close()
 	http.SetCookie(w, &http.Cookie{
 		Name:   "session",
 		Value:  "",

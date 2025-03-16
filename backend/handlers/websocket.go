@@ -53,25 +53,26 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 	cookie, err := r.Cookie("session")
 	if err != nil {
-		jsonResponse(w, http.StatusUnauthorized, "No session found", nil)
+		JsonResponse(w, http.StatusUnauthorized, "No session found", nil)
 		return
 	}
 	var userID int
 
 	err = database.DB.QueryRow("SELECT user_id FROM sessions WHERE session = ?", cookie.Value).Scan(&userID)
 	if err != nil {
-		jsonResponse(w, http.StatusOK, "Session valid", nil)
+		JsonResponse(w, http.StatusOK, "Session valid", nil)
 		if err == sql.ErrNoRows {
-			jsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
+			JsonResponse(w, http.StatusUnauthorized, "Invalid session", nil)
 		}
 		return
 	}
+ 
 	var nickname string
 	err = database.DB.QueryRow("SELECT nickname FROM users WHERE id =?", userID).Scan(&nickname)
 	if err != nil {
-		jsonResponse(w, http.StatusOK, "this is probleme in geting nickname from DB", nil)
+		JsonResponse(w, http.StatusOK, "this is probleme in geting nickname from DB", nil)
 		if err == sql.ErrNoRows {
-			jsonResponse(w, http.StatusUnauthorized, "this is probleme in geting nickname from DB", nil)
+			JsonResponse(w, http.StatusUnauthorized, "this is probleme in geting nickname from DB", nil)
 		}
 		return
 	}
@@ -133,7 +134,7 @@ func hndlemessage(msg Message, userinfo usersinfo) {
 			log.Println("Error inserting message into database:", err)
 			return
 		}
-
+	 
 		if receiverInfo, exists := connmap[msg.Receiver]; exists {
 			err := receiverInfo.conn.WriteJSON(map[string]interface{}{
 				"Type":   "message",

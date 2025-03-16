@@ -7,7 +7,7 @@ import (
 
 func HandleHome(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
-		jsonResponse(w, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed), nil)
+		JsonResponse(w, http.StatusMethodNotAllowed, http.StatusText(http.StatusMethodNotAllowed), nil)
 		return
 	}
 

@@ -17,14 +17,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	var user_id int
 
 	if r.Method != http.MethodPost {
-		jsonResponse(w, http.StatusMethodNotAllowed, "Invalid request method", nil)
+		JsonResponse(w, http.StatusMethodNotAllowed, "Invalid request method", nil)
 		return
 	}
 
 	var user models.LoginCredentials
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
-		jsonResponse(w, http.StatusBadRequest, "error :", err)
+		JsonResponse(w, http.StatusBadRequest, "error :", err)
 		fmt.Println(err)
 		return
 	}
@@ -32,13 +32,13 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	err = database.DB.QueryRow("SELECT password, id FROM users WHERE nickname = ? OR email = ?", user.Email, user.Email).Scan(&pasw, &user_id)
 	if err != nil {
 		// fmt.Println("pasw:", pasw, "  user id :", user_id, "error : ", err)
-		jsonResponse(w, http.StatusUnauthorized, "User not found or incorrect email", nil)
+		JsonResponse(w, http.StatusUnauthorized, "User not found or incorrect email", nil)
 		return
 	}
-
+	defer database.DB.Close()
 	err = tools.CheckPassword(pasw, user.Password)
 	if err != nil {
-		jsonResponse(w, http.StatusUnauthorized, "Invalid password", nil)
+		JsonResponse(w, http.StatusUnauthorized, "Invalid password", nil)
 		return
 	}
 
@@ -57,7 +57,5 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
-
-	jsonResponse(w, http.StatusOK, "Login successful", nil)
+	JsonResponse(w, http.StatusOK, "Login successful", nil)
 }

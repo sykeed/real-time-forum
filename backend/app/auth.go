@@ -5,6 +5,8 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	 
+
 	"time"
 
 	"github.com/gofrs/uuid"
@@ -47,10 +49,11 @@ func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, er
 	query1 := `SELECT user_id FROM sessions WHERE session = ? AND exp_date > datetime('now') `
 	var user_id int
 	err = db.QueryRow(query1, sessionID).Scan(&user_id)
-	
+
 	if err != nil {
 		log.Printf("Failed to validate session for GET: %v", err)
-		http.Error(w, "Invalid session", http.StatusUnauthorized)
+		 
+		 //	http.Error(w, "Invaliid session", http.StatusUnauthorized)
 		return 0, errors.New("error")
 	}
 	return user_id, nil
@@ -59,7 +62,7 @@ func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, er
 func isLoged(db *sql.DB, r *http.Request) int {
 	var user_id int
 	cookie, err := r.Cookie("session")
-	
+
 	if err != nil {
 		user_id = 0
 	} else {
