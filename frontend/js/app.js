@@ -142,26 +142,104 @@ export async function logout() {
 }
 
 export async function fetchPosts() {
-  let respons;
   const divpost = document.querySelector(".post-feed");
+  divpost.innerHTML = "<p>Loading posts...</p>"; // Clear previous posts and show loading
+  
   try {
-    respons = await fetch("/api/fetchposts", {
+    const response = await fetch("/api/fetchposts", {
       headers: { "Content-Type": "application/json" },
     });
-    var data = await respons.json();
+    
+    if (!response.ok) {
+      throw new Error("Failed to fetch posts");
+    }
+    
+    const data = await response.json();
+    
+    
+    if (data.length === 0) {
+      divpost.innerHTML = "<p>No posts found. Be the first to create a post!</p>";
+      return;
+    }
+    
+    // Clear loading message
+    divpost.innerHTML = "";
+    
+    // Create posts
+    data.forEach((post) => {
+      // Format the date
+      const postDate = new Date(post.created_at);
+      const formattedDate = postDate.toLocaleString();
+      
+      // Create the post element
+      const postElement = document.createElement("div");
+      postElement.className = "post-item";
+      postElement.dataset.postId = post.id;
+      
+      // console.log("data lijat" , post.content);
+      // Create the post content HTML
+      postElement.innerHTML = `
+        <div class="post-header">
+          <h2>${post.title}</h2>
+          <div class="post-meta">
+            <span class="post-author">Posted by: ${post.author}</span>
+            <span class="post-date">Date: ${formattedDate}</span>
+            <span class="post-category">Category: ${post.category}</span>
+          </div>
+        </div>
+        <div class="post-content">
+          <pre>${post.content}</pre>
+        </div>
+        <div class="post-actions">
+          <button class="comment-toggle" data-post-id="${post.id}">💬 Comments</button>
+        </div>
+        <div class="comments-section" id="comments-${post.id}" style="display: none;">
+          <h3>Comments</h3>
+          <div class="comments-list" id="comments-list-${post.id}">
+            <p>Loading comments...</p>
+          </div>
+          <div class="add-comment">
+            <textarea class="comment" placeholder="Add your comment" id="comment-input-${post.id}"></textarea>
+            <button class="comment-submit" id="${post.id}">Submit</button>
+          </div>
+        </div>
+      `;
+      
+      divpost.appendChild(postElement);
+      
+      // Add event listener for comment toggle
+      const commentToggle = postElement.querySelector(".comment-toggle");
+      commentToggle.addEventListener("click", () => {
+        console.log("bachiiiiiii");
+        
+        const commentsSection = document.getElementById(`comments-${post.id}`);
+        if (commentsSection.style.display === "none") {
+          commentsSection.style.display = "block";
+          // Here you would add code to fetch comments for this post
+          // fetchComments(post.id);
+        } else {
+          commentsSection.style.display = "none";
+        }
+      });
+      
+      // Add event listener for comment submission
+      const commentSubmit = postElement.querySelector(".comment-submit");
+      commentSubmit.addEventListener("click", () => {
+        const commentInput = document.getElementById(`comment-input-${post.id}`);
+        const commentText = commentInput.value.trim();
+        if (commentText) {
+          // Here you would add code to submit the comment
+          // submitComment(post.id, commentText);
+          // commentInput.value = "";
+        }
+      });
+    });
+    
   } catch (error) {
-    showpopup(error.message);
+    console.error("Error fetching posts:", error);
+    divpost.innerHTML = `<p>Error loading posts: ${error.message}</p>`;
+    showpopup(error.message, "error");
   }
-  data.forEach((element) => {
-    const divv = document.createElement("div");
-    divv.innerHTML = ` <h2>${element.title}</h2>
-                       <p>${element.content}</p>
-                       
-                       `;
-
-    divv.className = "poo";
-    divpost.appendChild(divv);
-  });
 }
 
 export function createPost() {
@@ -219,7 +297,8 @@ export async function submitPost(event) {
 
   const title = document.getElementById("post-title").value;
   const content = document.getElementById("post-content").value;
-
+  console.log("content : ",content);
+  
   const checkboxes = document.querySelectorAll(
     'input[name="category"]:checked'
   );
@@ -261,6 +340,15 @@ export async function submitPost(event) {
 window.createPost = function () {
   createPost();
 };
+
+
+export async function createcomment(idpost) {
+  const texterea = document.querySelector(`#comment-input-${idpost}`)
+   // console.log("haaani",texterea.value);
+   texterea.value = ""
+  
+
+}
 
 //============================================================================
 

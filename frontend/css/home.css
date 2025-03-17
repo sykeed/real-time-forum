@@ -477,3 +477,151 @@
   margin-top: 10px;
   text-align: right;
 }
+
+
+/* Add these styles to your home.css file */
+
+.post-feed {
+  width: 100%;
+}
+
+.post-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  padding: 15px;
+  transition: transform 0.2s ease;
+}
+
+.post-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.post-header {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.post-header h2 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #666;
+  gap: 10px;
+}
+
+.post-author, .post-date, .post-category {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+.post-content {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.post-actions button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px 10px;
+  transition: background-color 0.2s;
+}
+
+.post-actions button:hover {
+  background-color: #e0e0e0;
+}
+
+.comments-section {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.comments-section h3 {
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+}
+
+.add-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.add-comment textarea {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 60px;
+  padding: 8px;
+  resize: vertical;
+}
+
+.add-comment button {
+  align-self: flex-end;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px 15px;
+  transition: background-color 0.2s;
+}
+
+.add-comment button:hover {
+  background-color: #0069d9;
+}
+
+.comments-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.comment-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.comment-author {
+  color: #555;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.comment-date {
+  color: #999;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.comment-content {
+  line-height: 1.4;
+}

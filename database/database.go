@@ -61,10 +61,10 @@ func InitSchema() {
             content TEXT NOT NULL,
             category TEXT NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES users(id)
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         );`,
 		`CREATE TABLE IF NOT EXISTS comments (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             post_id TEXT NOT NULL,
             user_id TEXT NOT NULL,
             content TEXT NOT NULL,

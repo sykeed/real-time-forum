@@ -38,14 +38,16 @@ type Post struct {
 	Content   string    `json:"content"`
 	Category  string    `json:"category"`
 	CreatedAt time.Time `json:"created_at"`
+	Author    string    `json:"author"`
 }
 
 type Comment struct {
-	ID        string    `json:"id"`
+	ID        int    `json:"id"`
 	PostID    string    `json:"post_id"`
 	UserID    string    `json:"user_id"`
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
+	Author    string    `json:"author"`   
 }
 
 type Message struct {
@@ -55,17 +57,6 @@ type Message struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-type DislikedPost struct {
-	ID     int `json:"id"`
-	PostID int `json:"post_id"`
-	UserID int `json:"user_id"`
-}
-
-type LikedPost struct {
-	ID     int `json:"id"`
-	PostID int `json:"post_id"`
-	UserID int `json:"user_id"`
-}
 
 type Nickname struct {
 	Username string `json:"nickname"`

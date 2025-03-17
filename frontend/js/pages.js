@@ -1,4 +1,4 @@
-import { Register, Login, checkSession, logout,fetchPosts, openChatPopup, afficher_users, closechat, createWebSockets } from '/frontend/js/app.js';
+import { Register, Login, checkSession, logout,fetchPosts, openChatPopup, afficher_users, closechat, createWebSockets, createcomment } from '/frontend/js/app.js';
 // const socket = new WebSocket('ws://localhost:8005/ws');
 
 
@@ -31,6 +31,8 @@ function addListeners() {
     }else if (event.target.matches(".chat-x")){
       closechat(event.target.id)
       nchat -= 1
+    }else if (event.target.matches(".comment-submit")){
+      createcomment(event.target.id)
     }
   });
 }

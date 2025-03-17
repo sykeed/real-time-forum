@@ -17,4 +17,7 @@ func WebRoutes() {
 	http.HandleFunc("/", handlers.HandleHome)
 	http.HandleFunc("/api/users", handlers.GetUsers)
 
+	http.HandleFunc("/api/comments", handlers.FetchComments)       
+	http.HandleFunc("/api/createcomment", handlers.CreateComment)
+
 }
