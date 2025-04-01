@@ -625,3 +625,96 @@
 .comment-content {
   line-height: 1.4;
 }
+
+/* Add these styles to your home.css file */
+
+.comments-section {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 15px;
+  padding: 15px;
+}
+
+.comments-section h3 {
+  color: #333;
+  font-size: 1.1rem;
+  margin: 0 0 10px 0;
+}
+
+.comments-list {
+  margin-bottom: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  background-color: #fff;
+  border-left: 3px solid #ddd;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  color: #555;
+  font-weight: bold;
+}
+
+.comment-date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.comment-content {
+  color: #333;
+}
+
+.comment-content pre {
+  font-family: inherit;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.add-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-comment textarea {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 80px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.comment-submit {
+  align-self: flex-end;
+  background-color: #4a76a8;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background-color 0.2s;
+}
+
+.comment-submit:hover {
+  background-color: #3a5a78;
+}
+
+/* Add pre tag styling for post content */
+.post-content pre {
+  font-family: inherit;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}

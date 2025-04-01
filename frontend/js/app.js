@@ -140,107 +140,90 @@ export async function logout() {
     navigateTo("login");
   }
 }
-
 export async function fetchPosts() {
-  const divpost = document.querySelector(".post-feed");
-  divpost.innerHTML = "<p>Loading posts...</p>"; // Clear previous posts and show loading
-  
-  try {
-    const response = await fetch("/api/fetchposts", {
-      headers: { "Content-Type": "application/json" },
-    });
+    const divpost = document.querySelector(".post-feed");
+    divpost.innerHTML = "<p>Loading posts...</p>";  
     
-    if (!response.ok) {
-      throw new Error("Failed to fetch posts");
-    }
-    
-    const data = await response.json();
-    
-    
-    if (data.length === 0) {
-      divpost.innerHTML = "<p>No posts found. Be the first to create a post!</p>";
-      return;
-    }
-    
-    // Clear loading message
-    divpost.innerHTML = "";
-    
-    // Create posts
-    data.forEach((post) => {
-      // Format the date
-      const postDate = new Date(post.created_at);
-      const formattedDate = postDate.toLocaleString();
+    try {
+      const response = await fetch("/api/fetchposts", {
+        headers: { "Content-Type": "application/json" },
+      });
       
-      // Create the post element
-      const postElement = document.createElement("div");
-      postElement.className = "post-item";
-      postElement.dataset.postId = post.id;
+      if (!response.ok) {
+        throw new Error("Failed to fetch posts");
+      }
       
-      // console.log("data lijat" , post.content);
-      // Create the post content HTML
-      postElement.innerHTML = `
-        <div class="post-header">
-          <h2>${post.title}</h2>
-          <div class="post-meta">
-            <span class="post-author">Posted by: ${post.author}</span>
-            <span class="post-date">Date: ${formattedDate}</span>
-            <span class="post-category">Category: ${post.category}</span>
-          </div>
-        </div>
-        <div class="post-content">
-          <pre>${post.content}</pre>
-        </div>
-        <div class="post-actions">
-          <button class="comment-toggle" data-post-id="${post.id}">💬 Comments</button>
-        </div>
-        <div class="comments-section" id="comments-${post.id}" style="display: none;">
-          <h3>Comments</h3>
-          <div class="comments-list" id="comments-list-${post.id}">
-            <p>Loading comments...</p>
-          </div>
-          <div class="add-comment">
-            <textarea class="comment" placeholder="Add your comment" id="comment-input-${post.id}"></textarea>
-            <button class="comment-submit" id="${post.id}">Submit</button>
-          </div>
-        </div>
-      `;
+      const data = await response.json();
       
-      divpost.appendChild(postElement);
+      if (data.length === 0) {
+        divpost.innerHTML = "<p>No posts found. Be the first to create a post!</p>";
+        return;
+      }
       
-      // Add event listener for comment toggle
-      const commentToggle = postElement.querySelector(".comment-toggle");
-      commentToggle.addEventListener("click", () => {
-        console.log("bachiiiiiii");
+      // Clear loading message
+      divpost.innerHTML = "";
+      
+      // Create posts
+      data.forEach((post) => {
+        // Format the date
+        const postDate = new Date(post.created_at);
+        const formattedDate = postDate.toLocaleString();
         
-        const commentsSection = document.getElementById(`comments-${post.id}`);
-        if (commentsSection.style.display === "none") {
-          commentsSection.style.display = "block";
-          // Here you would add code to fetch comments for this post
-          // fetchComments(post.id);
-        } else {
-          commentsSection.style.display = "none";
-        }
+        // Create the post element
+        const postElement = document.createElement("div");
+        postElement.className = "post-item";
+        postElement.dataset.postId = post.id;
+        
+        // Create the post content HTML
+        postElement.innerHTML = `
+          <div class="post-header">
+            <h2>${post.title}</h2>
+            <div class="post-meta">
+              <span class="post-author">Posted by: ${post.author}</span>
+              <span class="post-date">Date: ${formattedDate}</span>
+              <span class="post-category">Category: ${post.category}</span>
+            </div>
+          </div>
+          <div class="post-content">
+            <pre>${post.content}</pre>
+          </div>
+          <div class="post-actions">
+            <button class="comment-toggle" data-post-id="${post.id}">💬 Comments</button>
+          </div>
+          <div class="comments-section" id="comments-${post.id}" style="display: none;">
+            <h3>Comments</h3>
+            <div class="comments-list" id="comments-list-${post.id}">
+              <p>Loading comments...</p>
+            </div>
+            <div class="add-comment">
+              <textarea class="comment" placeholder="Add your comment" id="comment-input-${post.id}"></textarea>
+              <button class="comment-submit" id="${post.id}">Submit</button>
+            </div>
+          </div>
+        `;
+        
+        divpost.appendChild(postElement);
+        
+        // Add event listener for comment toggle
+        const commentToggle = postElement.querySelector(".comment-toggle");
+        commentToggle.addEventListener("click", () => {
+          const commentsSection = document.getElementById(`comments-${post.id}`);
+          if (commentsSection.style.display === "none") {
+            commentsSection.style.display = "block";
+            // Fetch comments when the section is opened
+            fetchComments(post.id);
+          } else {
+            commentsSection.style.display = "none";
+          }
+        });
       });
       
-      // Add event listener for comment submission
-      const commentSubmit = postElement.querySelector(".comment-submit");
-      commentSubmit.addEventListener("click", () => {
-        const commentInput = document.getElementById(`comment-input-${post.id}`);
-        const commentText = commentInput.value.trim();
-        if (commentText) {
-          // Here you would add code to submit the comment
-          // submitComment(post.id, commentText);
-          // commentInput.value = "";
-        }
-      });
-    });
-    
-  } catch (error) {
-    console.error("Error fetching posts:", error);
-    divpost.innerHTML = `<p>Error loading posts: ${error.message}</p>`;
-    showpopup(error.message, "error");
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      divpost.innerHTML = `<p>Error loading posts: ${error.message}</p>`;
+      showpopup(error.message, "error");
+    }
   }
-}
 
 export function createPost() {
   const popup = document.createElement("div");
@@ -342,13 +325,106 @@ window.createPost = function () {
 };
 
 
-export async function createcomment(idpost) {
-  const texterea = document.querySelector(`#comment-input-${idpost}`)
-   // console.log("haaani",texterea.value);
-   texterea.value = ""
-  
+export async function fetchComments(postId) {
+    const commentsList = document.getElementById(`comments-list-${postId}`);
+    
+    if (!commentsList) return;
+    
+    commentsList.innerHTML = "<p>Loading comments...</p>";
+    
+    try {
+      const response = await fetch(`/api/comments?post_id=${postId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include" // for the koki
+      });
+      
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.message || "Failed to fetch comments");
+      }
+      
+      const comments = await response.json();
+      
+      if (comments.length === 0) {
+        commentsList.innerHTML = "<p>No comments yet. Be the first to comment!</p>";
+        return;
+      }
+      
+      commentsList.innerHTML = "";
+      
+      comments.forEach(comment => {
+        const commentDate = new Date(comment.created_at);
+        const formattedDate = commentDate.toLocaleString();
+        
+        const commentElement = document.createElement("div");
+        commentElement.className = "comment-item";
+        commentElement.innerHTML = `
+          <div class="comment-header">
+            <span class="comment-author">${comment.author}</span>
+            <span class="comment-date">${formattedDate}</span>
+          </div>
+          <div class="comment-content">
+            <pre>${comment.content}</pre>
+          </div>
+        `;
+        
+        commentsList.appendChild(commentElement);
+      });
+      
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+      commentsList.innerHTML = `<p>Error loading comments: ${error.message}</p>`;
+    }
+  }
 
-}
+
+  export async function createcomment(postId) {
+    const commentInput = document.getElementById(`comment-input-${postId}`);
+    if (!commentInput) return;
+    
+    const commentText = commentInput.value.trim();
+    if (!commentText) {
+      showpopup("Comment cannot be empty", "error");
+      return;
+    }
+    
+    try {
+      const response = await fetch("/api/createcomment", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json" 
+        },
+        credentials: "include", 
+        body: JSON.stringify({
+          post_id: postId.toString(),  
+          content: commentText
+        }),
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to submit comment");
+      }
+      
+       
+      commentInput.value = "";
+      
+       
+      fetchComments(postId);
+      
+      showpopup("Comment added successfully", "success");
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      showpopup(error.message, "error");
+    }
+  }
+
+ 
+
+
+
 
 //============================================================================
 

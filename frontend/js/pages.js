@@ -176,24 +176,7 @@ export async function navigateTo(page) {
   
   window.history.pushState({ page: page }, "", page);
 }
-/*
-// Make these global so they can be called from HTML
-window.createPost = function() {
-  console.log("Create post function called");
-  // Implement post creation logic
-};
 
-window.filterPosts = function(filter) {
-  console.log("Filter posts:", filter);
-  // Implement post filtering logic
-};
-
-window.sendMessage = function() {
-  const message = document.getElementById('messageInput').value;
-  console.log("Sending message:", message);
-  // Implement message sending logic
-};
-*/
 
  
 const routes = {
